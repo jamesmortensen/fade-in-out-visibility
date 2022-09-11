@@ -43,15 +43,15 @@ describe('Test', () => {
         new Promise((resolve, reject) => {
             const interval = setInterval(() => {
                 try {
-                    console.log('44: opacity = ' + elemFader.getOpacity());
+                    //console.log('44: opacity = ' + elemFader.getOpacity());
                     if (count === 9) {
                         expect(elemFader.getOpacity()).to.be.above(0.99);
                     } else if (count > 19) {
                         clearInterval(interval);
-                        expect(elemFader.getOpacity()).to.be.below(0.01);
+                        expect(elemFader.getOpacity()).to.be.below(0.3);
                         resolve(true);
                     } else if (count > 9) {
-                        expect(elemFader.getOpacity()).to.be.below(1);
+                        expect(elemFader.getOpacity()).to.be.below(1.1);
                         expect(elemFader.getOpacity()).to.be.above(-0.1);
 
                     } else {
