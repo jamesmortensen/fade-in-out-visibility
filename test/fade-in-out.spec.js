@@ -43,7 +43,7 @@ describe('Test', () => {
         new Promise((resolve, reject) => {
             const interval = setInterval(() => {
                 try {
-                    //console.log('44: opacity = ' + elemFader.getOpacity());
+                    //console.log('opacity = ' + elemFader.getOpacity());
                     if (count === 9) {
                         expect(elemFader.getOpacity()).to.be.above(0.99);
                     } else if (count > 19) {
@@ -72,6 +72,47 @@ describe('Test', () => {
             if (isDone)
                 done();
         });
+    });
+
+    it('should be able to handle multiple, back to back fadeIn, fadeOut calls', async () => {
+        const doc = generateMockDocument(0);
+        const elemFader = new ElementFader('.modal-footer', doc);
+        const errors = [];
+        for (var i = 0; i < 5; i++) {
+            elemFader.fadeIn();
+            elemFader.fadeOut();
+        }
+        for (var i = 0; i < 5; i++) {
+            console.log('iteration = ' + i);
+            var count = 0;
+            await new Promise((resolve, reject) => {
+                const interval = setInterval(() => {
+                    try {
+                        console.log('opacity = ' + elemFader.getOpacity());
+                        if (count === 9) {
+                            expect(elemFader.getOpacity()).to.be.above(-0.01);
+                        } else if (count > 19) {
+                            clearInterval(interval);
+                            expect(elemFader.getOpacity()).to.be.below(1.1);
+                            resolve(true);
+                        } else if (count > 9) {
+                            expect(elemFader.getOpacity()).to.be.below(1.1);
+                            expect(elemFader.getOpacity()).to.be.above(-0.1);
+
+                        } else {
+                            expect(elemFader.getOpacity()).to.be.above(-0.1);
+                            expect(elemFader.getOpacity()).to.be.below(1);
+                        }
+                        count++;
+                    } catch (e) {
+                        console.error('Failing test. Clear interval...');
+                        clearInterval(interval);
+                        reject(e);
+                    }
+                }, 100);
+            });
+        }
+        console.log(errors);
     });
 });
 

@@ -1,4 +1,9 @@
+// fade-in-out.js
 
+/*
+Similar to jQuery's fadeIn and fadeOut, except relies on visibility and opacity instead of display, 
+which preserves element height and width.
+*/
 
 class ElementFader {
 
@@ -13,28 +18,28 @@ class ElementFader {
 
     fadeIn() {
         this.queue.push(this.#fadeIn);
-        if(this.interval === null) {
+        if (this.interval === null) {
             this.queue.shift()(this);
         }
-
     }
 
     fadeOut() {
         this.queue.push(this.#fadeOut);
-        if(this.interval === null) {
+        if (this.interval === null) {
             this.queue.shift()(this);
         }
     }
 
     #fadeIn(that) {
-        that.interval = setInterval( ((_this) => {
-            return function() {
+        that.interval = setInterval(((_this) => {
+            return function () {
                 _this.opacity += .1;
                 _this.elem.style.opacity = _this.opacity;
-                if(_this.opacity > 1) {
+                if (_this.opacity > 1) {
+                    _this.elem.style.opacity = 1;
                     clearInterval(_this.interval);
                     _this.interval = null;
-                    if(_this.queue.length > 0)
+                    if (_this.queue.length > 0)
                         _this.queue.shift()(_this);
                 }
             }
@@ -42,14 +47,15 @@ class ElementFader {
     }
 
     #fadeOut(that) {
-        that.interval = setInterval( ((_this) => {
-            return function() {
+        that.interval = setInterval(((_this) => {
+            return function () {
                 _this.opacity -= .1;
                 _this.elem.style.opacity = _this.opacity;
-                if(_this.opacity < 0) {
+                if (_this.opacity < 0) {
+                    _this.elem.style.opacity = 0;
                     clearInterval(_this.interval);
                     _this.interval = null;
-                    if(_this.queue.length > 0)
+                    if (_this.queue.length > 0)
                         _this.queue.shift()(_this);
                 }
             }
@@ -61,5 +67,5 @@ class ElementFader {
     }
 }
 
-if(typeof module !== 'undefined' && typeof module.exports !== 'undefined')
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
     module.exports = ElementFader;
