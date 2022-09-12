@@ -9,9 +9,9 @@ describe('Test', () => {
         var count = 0;
         const interval = setInterval(() => {
             try {
-                if (count++ > 9) {
+                if (count++ > 8) {
                     clearInterval(interval);
-                    expect(elemFader.getOpacity()).to.be.above(1);
+                    expect(elemFader.getOpacity()).to.equal(1);
                     done();
                 } else {
                     expect(elemFader.getOpacity()).to.be.below(1);
@@ -29,9 +29,9 @@ describe('Test', () => {
         var count = 0;
         const interval = setInterval(() => {
             try {
-                if (count++ > 9) {
+                if (count++ > 8) {
                     clearInterval(interval);
-                    expect(elemFader.getOpacity()).to.be.below(0);
+                    expect(elemFader.getOpacity()).to.equal(0);
                     done();
                 } else {
                     expect(elemFader.getOpacity()).to.be.above(0);
@@ -53,17 +53,17 @@ describe('Test', () => {
                 try {
                     //console.log('opacity = ' + elemFader.getOpacity());
                     if (count === 9) {
-                        expect(elemFader.getOpacity()).to.be.above(0.99);
-                    } else if (count > 19) {
+                        expect(elemFader.getOpacity()).to.equal(1);
+                    } else if (count > 18) {
                         clearInterval(interval);
-                        expect(elemFader.getOpacity()).to.be.below(0.3);
+                        expect(elemFader.getOpacity()).to.equal(0);
                         resolve(true);
                     } else if (count > 9) {
-                        expect(elemFader.getOpacity()).to.be.below(1.1);
-                        expect(elemFader.getOpacity()).to.be.above(-0.1);
+                        expect(elemFader.getOpacity()).to.be.below(1);
+                        expect(elemFader.getOpacity()).to.be.above(0);
 
                     } else {
-                        expect(elemFader.getOpacity()).to.be.above(-0.01);
+                        expect(elemFader.getOpacity()).to.be.above(0);
                         expect(elemFader.getOpacity()).to.be.below(1);
                     }
                     count++;
@@ -74,7 +74,7 @@ describe('Test', () => {
                 }
             }, 100);
         }).catch((err) => {
-            console.log('inside CATCH');
+            console.error('inside catch');
             done(err);
         }).then((isDone) => {
             if (isDone)
@@ -82,6 +82,8 @@ describe('Test', () => {
         });
     });
 
+    // this appears to work well in production, but the test needs more work. The iteration loop
+    // does not match the fadeIn and fadeOut executions.
     it('should be able to handle multiple, back to back fadeIn, fadeOut calls', async () => {
         const doc = generateMockDocument(0);
         const elemFader = new ElementFader('.modal-footer', doc);
@@ -108,8 +110,8 @@ describe('Test', () => {
                             expect(elemFader.getOpacity()).to.be.above(-0.1);
 
                         } else {
-                            expect(elemFader.getOpacity()).to.be.above(-0.1);
-                            expect(elemFader.getOpacity()).to.be.below(1);
+                            expect(elemFader.getOpacity()).to.be.above(0);
+                            expect(elemFader.getOpacity()).to.be.below(1.1);
                         }
                         count++;
                     } catch (e) {

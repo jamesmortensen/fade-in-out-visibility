@@ -33,10 +33,9 @@ class ElementFader {
     #fadeIn(that) {
         that.interval = setInterval(((_this) => {
             return function () {
-                _this.opacity += .1;
+                _this.opacity = Math.round( (_this.opacity + .1) * 10 ) / 10;
                 _this.elem.style.opacity = _this.opacity;
-                if (_this.opacity > 1) {
-                    _this.elem.style.opacity = 1;
+                if (_this.opacity >= 1) {
                     clearInterval(_this.interval);
                     _this.interval = null;
                     if (_this.queue.length > 0)
@@ -49,10 +48,9 @@ class ElementFader {
     #fadeOut(that) {
         that.interval = setInterval(((_this) => {
             return function () {
-                _this.opacity -= .1;
+                _this.opacity = Math.round( (_this.opacity - .1) * 10 ) / 10; 
                 _this.elem.style.opacity = _this.opacity;
-                if (_this.opacity < 0) {
-                    _this.elem.style.opacity = 0;
+                if (_this.opacity <= 0) {
                     clearInterval(_this.interval);
                     _this.interval = null;
                     if (_this.queue.length > 0)
