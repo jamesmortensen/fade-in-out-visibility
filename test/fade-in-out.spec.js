@@ -8,12 +8,16 @@ describe('Test', () => {
         elemFader.fadeIn();
         var count = 0;
         const interval = setInterval(() => {
-            if (count++ > 9) {
-                clearInterval(interval);
-                expect(elemFader.getOpacity()).to.be.above(1);
-                done();
-            } else {
-                expect(elemFader.getOpacity()).to.be.below(1);
+            try {
+                if (count++ > 9) {
+                    clearInterval(interval);
+                    expect(elemFader.getOpacity()).to.be.above(1);
+                    done();
+                } else {
+                    expect(elemFader.getOpacity()).to.be.below(1);
+                }
+            } catch (e) {
+                done(e);
             }
         }, 100);
     });
@@ -24,12 +28,16 @@ describe('Test', () => {
         elemFader.fadeOut();
         var count = 0;
         const interval = setInterval(() => {
-            if (count++ > 9) {
-                clearInterval(interval);
-                expect(elemFader.getOpacity()).to.be.below(0);
-                done();
-            } else {
-                expect(elemFader.getOpacity()).to.be.above(0);
+            try {
+                if (count++ > 9) {
+                    clearInterval(interval);
+                    expect(elemFader.getOpacity()).to.be.below(0);
+                    done();
+                } else {
+                    expect(elemFader.getOpacity()).to.be.above(0);
+                }
+            } catch (e) {
+                done(e);
             }
         }, 100);
     });
