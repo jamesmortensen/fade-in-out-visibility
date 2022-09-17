@@ -17,6 +17,8 @@ class ElementFader {
     }
 
     fadeIn() {
+        if(this.queue.length === 4)
+            this.queue.shift();
         this.queue.push(this.#fadeIn);
         if (this.interval === null) {
             this.queue.shift()(this);
@@ -24,6 +26,8 @@ class ElementFader {
     }
 
     fadeOut() {
+        if(this.queue.length === 4)
+            this.queue.shift();
         this.queue.push(this.#fadeOut);
         if (this.interval === null) {
             this.queue.shift()(this);
